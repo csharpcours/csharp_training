@@ -50,7 +50,7 @@ namespace WebAddressbookTests
             GoToGroupPage();
             InitGroupCreation();
             GroupData groupData = new GroupData("testName");
-            groupData.GroupFooter = "1";
+            groupData.GroupFooter = "FooterName";
             FillGroupForm(groupData);
             SubmitGroupCreation();
             Logout();

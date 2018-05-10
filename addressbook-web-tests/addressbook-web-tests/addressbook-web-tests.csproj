@@ -60,10 +60,11 @@
   <ItemGroup>
     <Compile Include="AccountData.cs" />
     <Compile Include="GroupData.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="EmptyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GroupCreationTests.cs" />
     <Compile Include="UserCreationTests.cs" />
+    <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
