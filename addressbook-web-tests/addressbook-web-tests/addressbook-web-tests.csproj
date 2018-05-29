@@ -73,9 +73,12 @@
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="tests\users\UserCreationTests.cs" />
     <Compile Include="model\UserData.cs" />
-    <Compile Include="appManager\UserHelper.cs" />
+    <Compile Include="appManager\ContractHelper.cs" />
+    <Compile Include="tests\users\UserModificationTests.cs" />
+    <Compile Include="tests\users\UserRemoveTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

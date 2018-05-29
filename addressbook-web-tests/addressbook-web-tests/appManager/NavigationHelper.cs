@@ -21,5 +21,6 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.LinkText("add new")).Click();
         }
+
     }
 }

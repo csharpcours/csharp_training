@@ -1,6 +1,4 @@
-﻿
-using NUnit.Framework;
-
+﻿using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
@@ -10,10 +8,7 @@ namespace WebAddressbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            //  manager.Navigator.GoToGroupPage();
             manager.Groups.Remove(1);
-
-
         }
     }
 }

@@ -11,18 +11,26 @@ namespace WebAddressbookTests
   public  class ApplicationManager
     {
         protected IWebDriver driver;
+        protected IAlert alert;
         protected StringBuilder verificationErrors;
         protected string baseURL;
 
         protected LoginHelper loginHelper;
         protected NavigationHelper navigationHelper;
         protected GroupHelper groupHelper;
-        protected UserHelper userHelper;
+        protected ContractHelper userHelper;
         public IWebDriver Driver
         {
             get
             {
                 return driver;
+            }
+        }
+        public IAlert Alert
+        {
+            get
+            {
+                return alert;
             }
         }
 
@@ -41,7 +49,7 @@ namespace WebAddressbookTests
             loginHelper = new LoginHelper(this);
             navigationHelper = new NavigationHelper(this,baseURL);
             groupHelper = new GroupHelper(this);
-            userHelper = new UserHelper(this);
+            userHelper = new ContractHelper(this);
         }
         public void Quit()
         {
@@ -75,7 +83,7 @@ namespace WebAddressbookTests
                 return groupHelper;
             }
         }
-        public UserHelper Users
+        public ContractHelper Users
         {
             get
             {
