@@ -48,7 +48,6 @@ namespace WebAddressbookTests
 
         public ContractHelper Modification(UserData userData)
         {            
-          //  SelectUser(d);
             InitUserModification();
             FillUserForm(userData);
             SubmitUserModification();
