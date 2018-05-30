@@ -27,7 +27,7 @@ namespace WebAddressbookTests
             userData.Notes = "ModifNotes";
             userData.Year = "1988";
             userData.Ayear = "1988";
-            manager.Users.Modification(1,userData);
+            manager.Users.Modification(userData);
         }
 
     }

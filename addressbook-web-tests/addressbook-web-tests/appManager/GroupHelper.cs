@@ -76,13 +76,13 @@ namespace WebAddressbookTests
 
         public GroupHelper FillGroupForm(GroupData groupData)
         {
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(groupData.GroupName);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(groupData.GroupHeader);
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(groupData.GroupFooter);
+            Type(By.Name("group_name"), groupData.GroupName);
+            Type(By.Name("group_header"), groupData.GroupHeader);
+            Type(By.Name("group_footer"), groupData.GroupFooter);
             return this;
         }
+
+      
+        
     }
 }
