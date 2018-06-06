@@ -3,7 +3,7 @@
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class UserModificationTests : TestBase
+    public class UserModificationTests : AuthTestBase
     {
         [Test]
         public void UserModificationTest()
@@ -27,7 +27,7 @@ namespace WebAddressbookTests
             userData.Notes = "ModifNotes";
             userData.Year = "1988";
             userData.Ayear = "1988";
-            manager.Users.Modification(userData);
+            app.Users.Modification(userData);
         }
 
     }

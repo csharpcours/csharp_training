@@ -46,25 +46,28 @@ namespace WebAddressbookTests
             return this;
         }
 
+       
+        public ContractHelper Create(UserData userData)
+        {
+            manager.Navigator.GoToUserCreationPage();
+            FillUserForm(userData);
+            SubmitUserCreation();
+            manager.Navigator.OpenHomePage();
+            return this;
+        }
+
         public ContractHelper Modification(UserData userData)
-        {            
+        {
+            manager.Navigator.OpenHomePage();
             InitUserModification();
             FillUserForm(userData);
             SubmitUserModification();
             return this;
         }
 
-
-        public ContractHelper Create(UserData userData)
-        {
-            manager.Navigator.GoToUserCreationPage();
-            FillUserForm(userData);
-            SubmitUserCreation();
-            return this;
-        }
-
         public ContractHelper Remove(int v)
         {
+            manager.Navigator.OpenHomePage();
             SelectUser(v);
             RemoveUser();
             SubmitUserDeleteCloseAlert();
@@ -79,6 +82,11 @@ namespace WebAddressbookTests
        
         public ContractHelper SelectUser(int index)
         {
+            if (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
+            {
+                UserData userData = new UserData("FirstName", "LastName");
+                Create(userData);                
+            }
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
         }
@@ -97,6 +105,11 @@ namespace WebAddressbookTests
         }
         public ContractHelper InitUserModification()
         {
+            if (!IsElementPresent(By.CssSelector("img[alt=\"Edit\"]")))
+            {
+                UserData userData = new UserData("FirstName", "LastName");
+                Create(userData);                
+            }
             driver.FindElement(By.CssSelector("img[alt=\"Edit\"]")).Click();
             return this;
         }

@@ -4,7 +4,7 @@
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class UserCreationTests : TestBase
+    public class UserCreationTests : AuthTestBase
     {            
 
         [Test]
@@ -29,7 +29,7 @@ namespace WebAddressbookTests
             userData.Notes = "Notes";
             userData.Year = "1988";
             userData.Ayear = "1988";
-            manager.Users.Create(userData);
+            app.Users.Create(userData);
         }             
     }
 }

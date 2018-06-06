@@ -5,22 +5,19 @@ namespace WebAddressbookTests
 {
     public class TestBase
     {
-        protected ApplicationManager manager;
+        protected ApplicationManager app;
 
         [SetUp]
-        public void SetupTest()
+        public void SetupAppicationManager()
         {
-            manager = new ApplicationManager();
-            manager.Navigator.OpenHomePage();
-            manager.LogOnOff.Login(new AccountData("admin", "secret"));
+            app = ApplicationManager.GetInstance();          
         }
-        
-        [TearDown]
-        public void TeardownTest()
 
-        {
-            manager.LogOnOff.Logout();
-            manager.Quit();
-        }
+        //[TearDown]
+        //public void StopApplicationManager()
+        //{
+        //    ApplicationManager.GetInstance().LogOnOff.Logout();
+        //}
+
     }
 }

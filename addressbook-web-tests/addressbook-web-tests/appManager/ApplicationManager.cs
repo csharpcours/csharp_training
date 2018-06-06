@@ -19,6 +19,9 @@ namespace WebAddressbookTests
         protected NavigationHelper navigationHelper;
         protected GroupHelper groupHelper;
         protected ContractHelper userHelper;
+
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
+
         public IWebDriver Driver
         {
             get
@@ -34,11 +37,12 @@ namespace WebAddressbookTests
             }
         }
 
+
         public string BaseURL
         {
             get { return baseURL; }
         }
-        public ApplicationManager()
+        private  ApplicationManager()
         {
             FirefoxOptions options = new FirefoxOptions();
             options.BrowserExecutableLocation = @"C:\Users\User\Desktop\firefox-sdk\bin\firefox.exe";
@@ -51,8 +55,12 @@ namespace WebAddressbookTests
             groupHelper = new GroupHelper(this);
             userHelper = new ContractHelper(this);
         }
-        public void Quit()
+
+
+
+         ~ApplicationManager()
         {
+            //GetInstance().LogOnOff.Logout();
             try
             {
                 driver.Quit();
@@ -62,6 +70,30 @@ namespace WebAddressbookTests
 
             }
         }
+        public static ApplicationManager GetInstance()
+        {
+            if (!app.IsValueCreated)
+            {
+                ApplicationManager newInstance = new ApplicationManager();                
+                newInstance.Navigator.OpenHomePage();
+                app.Value = newInstance;
+            }
+
+            return app.Value;
+        }
+
+        //public void Quit()
+        //{
+         //try
+         //   {
+         //       driver.Quit();
+         //   }
+         //   catch (Exception)
+         //   {
+
+         //   }
+            
+        //}
         public LoginHelper LogOnOff
         {
             get
