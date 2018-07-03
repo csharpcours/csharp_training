@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 
 
 namespace WebAddressbookTests
@@ -29,7 +30,22 @@ namespace WebAddressbookTests
             userData.Notes = "Notes";
             userData.Year = "1988";
             userData.Ayear = "1988";
+
+            List<UserData> oldContacts = app.Users.GetContactList();
             app.Users.Create(userData);
-        }             
+            List<UserData> newContacts = app.Users.GetContactList();
+            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+        }
+
+        [Test]
+        public void BadNameUserCreationTest()
+        {
+            UserData userData = new UserData("A'A", "LastName");
+            
+            List<UserData> oldContacts = app.Users.GetContactList();
+            app.Users.Create(userData);
+            List<UserData> newContacts = app.Users.GetContactList();
+            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+        }
     }
 }

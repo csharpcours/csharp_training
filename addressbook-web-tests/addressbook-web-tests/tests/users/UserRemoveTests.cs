@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -9,7 +10,12 @@ namespace WebAddressbookTests
 
         public void UserRemoveTest()
         {
-            app.Users.Remove(1);
+            if (!app.Users.CheckContact())
+            {
+                UserData createData = new UserData("CreateForModifFirstName", "CreateForModifLastName");
+                app.Users.Create(createData);
+            }
+            app.Users.Remove(0);
         }
     }
 }

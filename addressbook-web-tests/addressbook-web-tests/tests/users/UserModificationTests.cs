@@ -8,6 +8,7 @@ namespace WebAddressbookTests
         [Test]
         public void UserModificationTest()
         {
+
             UserData userData = new UserData("ModifFirstName", "ModifLastName");
             userData.MidleName = "ModifMiddleName";
             userData.Nickname = "ModifNickname";
@@ -27,7 +28,14 @@ namespace WebAddressbookTests
             userData.Notes = "ModifNotes";
             userData.Year = "1988";
             userData.Ayear = "1988";
+
+            if (!app.Users.CheckContact())
+            {
+                UserData createData = new UserData("CreateForModifFirstName", "CreateForModifLastName");
+                app.Users.Create(createData);
+            }
             app.Users.Modification(userData);
+           // Assert.IsTrue((app.Users.CheckContact()));
         }
 
     }

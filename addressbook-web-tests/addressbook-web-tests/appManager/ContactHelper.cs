@@ -46,7 +46,34 @@ namespace WebAddressbookTests
             return this;
         }
 
-       
+        public bool CheckContact()
+        {
+            manager.Navigator.OpenHomePage();
+            return IsElementPresent(By.CssSelector("img[alt=\"Edit\"]"));
+        }
+
+        public List<UserData> GetContactList()
+        {
+            //*[@id="maintable"]/tbody/tr[2]/td[2]   
+            //*[@id="maintable"]/tbody/tr[3]/td[3]
+                //# maintable > tbody > tr.odd > td:nth-child(3)
+
+            List<UserData> contacts = new List<UserData>();
+                manager.Navigator.OpenHomePage();
+            //   ICollection<IWebElement> names = driver.FindElements(By.XPath("//*[@id='maintable']/tbody/tr[2]/td[2]"));
+                ICollection<IWebElement> names = driver.FindElements(By.CssSelector("#maintable>tbody>tr:nth-child(2)>td:nth-child(2)"));
+            //  ICollection<IWebElement> secondnames = driver.FindElements(By.XPath("//*[@id='maintable']/tbody/tr[3]/td[3]"));
+                ICollection<IWebElement> secondnames = driver.FindElements(By.CssSelector("#maintable>tbody>tr:nth-child(2)>td:nth-child(2)"));
+
+            foreach (IWebElement name in names)
+                foreach (IWebElement secondname in secondnames)
+                {
+                    contacts.Add(new UserData(name.Text, secondname.Text));
+                }
+                return contacts;
+            
+        }
+
         public ContractHelper Create(UserData userData)
         {
             manager.Navigator.GoToUserCreationPage();
@@ -82,12 +109,12 @@ namespace WebAddressbookTests
        
         public ContractHelper SelectUser(int index)
         {
-            if (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
+            if (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index+1 + "]")))
             {
                 UserData userData = new UserData("FirstName", "LastName");
                 Create(userData);                
             }
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index+1 + "]")).Click();
             return this;
         }
         public ContractHelper RemoveUser()
@@ -105,11 +132,7 @@ namespace WebAddressbookTests
         }
         public ContractHelper InitUserModification()
         {
-            if (!IsElementPresent(By.CssSelector("img[alt=\"Edit\"]")))
-            {
-                UserData userData = new UserData("FirstName", "LastName");
-                Create(userData);                
-            }
+
             driver.FindElement(By.CssSelector("img[alt=\"Edit\"]")).Click();
             return this;
         }

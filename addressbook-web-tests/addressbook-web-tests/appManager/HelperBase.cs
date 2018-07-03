@@ -29,6 +29,24 @@ namespace WebAddressbookTests
             }
 
         }
+        public string TextByElementOnPage(string texts)
+        {
+            // driver.FindElement(By.XPath("//*[@id = 'content']/form/span/text(),'"texts");
+            //driver.FindElement(By.XPath("//*[@id = 'content']/form/span/(text(),'"texts"')));
+            //var TextByElement = driver.FindElement(By.XPath("//*[.="+texts+"]"));
+           // var TextByElement = driver.FindElement(By.XPath("span[@class="group"]//input"));
+           // var TextByElement = driver.FindElement(By.Name("selected[]")).Click();
+           
+            var TextByElement = driver.FindElement(By.XPath("//span[@title='title = 'Select(" + texts + ")']"));
+            // title = "Select (ModifytestName)"
+            //*[@id="content"]/form/span/text()
+            //*[@id="content"]/form/span
+            //*[@id="content"]/form/span/(text(), '+texts+')
+            //   [@id="content"]/form/span/text()
+            Console.WriteLine(TextByElement);
+            return TextByElement.Text;
+             
+        }
         public bool IsElementPresent(By by)
         {
             try
