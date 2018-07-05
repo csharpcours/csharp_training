@@ -33,8 +33,14 @@ namespace WebAddressbookTests
 
             List<UserData> oldContacts = app.Users.GetContactList();
             app.Users.Create(userData);
+
             List<UserData> newContacts = app.Users.GetContactList();
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            oldContacts.Add(userData);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
+
+            //Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
         }
 
         [Test]
@@ -45,7 +51,8 @@ namespace WebAddressbookTests
             List<UserData> oldContacts = app.Users.GetContactList();
             app.Users.Create(userData);
             List<UserData> newContacts = app.Users.GetContactList();
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            Assert.AreEqual(oldContacts.Count , newContacts.Count);
+            //Assert.AreEqual(oldContacts.Count+1, newContacts.Count);
         }
     }
 }

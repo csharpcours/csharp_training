@@ -52,26 +52,27 @@ namespace WebAddressbookTests
             return IsElementPresent(By.CssSelector("img[alt=\"Edit\"]"));
         }
 
+        private List<UserData> contactCache =null;
+
         public List<UserData> GetContactList()
         {
-            //*[@id="maintable"]/tbody/tr[2]/td[2]   
-            //*[@id="maintable"]/tbody/tr[3]/td[3]
-                //# maintable > tbody > tr.odd > td:nth-child(3)
-
+            manager.Navigator.OpenHomePage();
             List<UserData> contacts = new List<UserData>();
-                manager.Navigator.OpenHomePage();
-            //   ICollection<IWebElement> names = driver.FindElements(By.XPath("//*[@id='maintable']/tbody/tr[2]/td[2]"));
-                ICollection<IWebElement> names = driver.FindElements(By.CssSelector("#maintable>tbody>tr:nth-child(2)>td:nth-child(2)"));
-            //  ICollection<IWebElement> secondnames = driver.FindElements(By.XPath("//*[@id='maintable']/tbody/tr[3]/td[3]"));
-                ICollection<IWebElement> secondnames = driver.FindElements(By.CssSelector("#maintable>tbody>tr:nth-child(2)>td:nth-child(2)"));
+            ICollection < IWebElement> Rows =new List<IWebElement>(driver.FindElements(By.Name("entry")));
 
-            foreach (IWebElement name in names)
-                foreach (IWebElement secondname in secondnames)
+            if (contactCache == null)
+            {
+                contactCache = new List<UserData>();
+                foreach (var row in Rows)
                 {
-                    contacts.Add(new UserData(name.Text, secondname.Text));
+                    var cells = row.FindElements(By.TagName("td"));
+                    UserData contact = new UserData(cells[2].Text);
+                    contact.Lastname = cells[1].Text;
+                    contactCache.Add(contact);                    
                 }
-                return contacts;
-            
+            }
+            return new List<UserData>(contactCache);
+
         }
 
         public ContractHelper Create(UserData userData)
@@ -104,6 +105,7 @@ namespace WebAddressbookTests
         public ContractHelper SubmitUserCreation()
         {
             driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
+            contactCache = null;
             return this;
         }
        
@@ -119,7 +121,8 @@ namespace WebAddressbookTests
         }
         public ContractHelper RemoveUser()
         {
-            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();            
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
             return this;            
         }
         public ContractHelper SubmitUserDeleteCloseAlert()
@@ -130,8 +133,11 @@ namespace WebAddressbookTests
             // IAlert alert = driver.SwitchTo().Alert();
             return this;
         }
-        public ContractHelper InitUserModification()
+        public ContractHelper InitUserModification()  //(int ind)
         {
+            //driver.FindElement(By.Name("entry"))[ind]
+            //    .FindElement(By.TagName("td"))[7]
+            //    .FindElement(By.TagName("a")).Click();
 
             driver.FindElement(By.CssSelector("img[alt=\"Edit\"]")).Click();
             return this;
@@ -140,6 +146,7 @@ namespace WebAddressbookTests
         public ContractHelper SubmitUserModification()
         {
             driver.FindElement(By.XPath("(//input[@name='update'])[2]")).Click();
+            contactCache = null;
             return this;
         }
 
