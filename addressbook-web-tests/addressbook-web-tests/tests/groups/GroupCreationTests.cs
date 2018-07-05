@@ -16,7 +16,12 @@ namespace WebAddressbookTests
 
             List<GroupData> oldGroups =app.Groups.GetGroupList();
             app.Groups.Create(groupData);
+
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+
             oldGroups.Add(groupData);
+
+            
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
 

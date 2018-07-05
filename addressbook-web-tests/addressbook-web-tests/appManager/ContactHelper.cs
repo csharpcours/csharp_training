@@ -46,6 +46,11 @@ namespace WebAddressbookTests
             return this;
         }
 
+        internal int GetUserCount()
+        {
+            return driver.FindElements(By.CssSelector("img[alt=\"Edit\"]")).Count;
+        }
+
         public bool CheckContact()
         {
             manager.Navigator.OpenHomePage();
@@ -65,6 +70,8 @@ namespace WebAddressbookTests
                 contactCache = new List<UserData>();
                 foreach (var row in Rows)
                 {
+
+
                     var cells = row.FindElements(By.TagName("td"));
                     UserData contact = new UserData(cells[2].Text);
                     contact.Lastname = cells[1].Text;
@@ -90,6 +97,7 @@ namespace WebAddressbookTests
             InitUserModification();
             FillUserForm(userData);
             SubmitUserModification();
+            manager.Navigator.OpenHomePage();
             return this;
         }
 
@@ -99,6 +107,7 @@ namespace WebAddressbookTests
             SelectUser(v);
             RemoveUser();
             SubmitUserDeleteCloseAlert();
+            manager.Navigator.OpenHomePage();
             return this;
         }
 
