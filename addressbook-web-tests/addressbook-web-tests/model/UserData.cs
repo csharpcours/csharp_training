@@ -8,6 +8,8 @@ namespace WebAddressbookTests
 {
     public class UserData : IEquatable<UserData>,IComparable<UserData>
     {
+        private string allPhones;
+        private string allEmails;
         //private string firstName;
         //private string lastname;
         //private string midleName ="";
@@ -97,5 +99,72 @@ namespace WebAddressbookTests
         public string Year  { get; set; }
         public string Ayear { get; set; }
         public string Id { get; set; }
+
+        public string AllPhones
+        {       
+            get {
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUp(Home) + CleanUp(Mobile)+CleanUp(Work)+ CleanUp(SecondaryHome)).Trim();
+                }
+            }
+
+            set{
+                allPhones = value;
+            }
+        }
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+        }
+
+        public string AllEmails
+        {
+            get
+            {
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                if (Email2 == ""&& Email3=="")
+                {
+                    return Email1;
+                }
+                if (Email2 == "" )
+                {
+                    return LineBreak(Email1) + LineBreak(Email3);
+                }
+                if (Email3 == "")
+                {
+                    return LineBreak(Email1) + Email2;
+                }
+                else
+                {
+                    return LineBreak(Email1)  + LineBreak(Email2)  + Email3;
+                }
+            }
+
+            set
+            {
+                allEmails = value;
+            }
+        }
+
+        private string LineBreak(string mail)
+        {
+            if (mail == null || mail == "")
+            {
+                return "";
+            }
+            return mail+ "\r\n";
+        }
     }
 }

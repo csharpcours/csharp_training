@@ -73,6 +73,7 @@
     <Compile Include="tests\groups\GroupCreationTests.cs" />
     <Compile Include="tests\LoginTests.cs" />
     <Compile Include="tests\TestBase.cs" />
+    <Compile Include="tests\users\ContactInformationTests.cs" />
     <Compile Include="tests\users\UserCreationTests.cs" />
     <Compile Include="model\UserData.cs" />
     <Compile Include="appManager\ContactHelper.cs" />

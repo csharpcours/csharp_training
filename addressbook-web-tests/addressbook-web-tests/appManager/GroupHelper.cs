@@ -39,11 +39,25 @@ namespace WebAddressbookTests
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
-                    GroupData group = new GroupData(element.Text)
+                    GroupData group = new GroupData(null)
                     {
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     };
                     groupCache.Add(group);
+                }
+                string AllGroupNames = driver.FindElement(By.CssSelector("div#content form")).Text;
+               string [] parts= AllGroupNames.Split('\n');
+                int shift = groupCache.Count - parts.Length;
+                for (int i = 0; i < groupCache.Count; i++)
+                {
+                    if (i < shift)
+                    {
+                        groupCache[i].GroupName = "";
+                    }
+                    else
+                    {
+                        groupCache[i].GroupName = parts[i-shift].Trim();
+                    }
                 }
             }
             
