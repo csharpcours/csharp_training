@@ -1,6 +1,13 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
+using EXEL = Microsoft.Office.Interop.Excel;
+
+
 
 
 namespace WebAddressbookTests
@@ -20,9 +27,60 @@ namespace WebAddressbookTests
             return groupData;
         }
 
+        public static IEnumerable<GroupData> GroupDataFromCSvFile()
+        {
+            List<GroupData> groupData = new List<GroupData>();
+            string [] lines= File.ReadAllLines(@"group.csv");
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                groupData.Add(new GroupData(parts[0])
+                {
+                    GroupHeader =parts[1],
+                    GroupFooter= parts[2]
+                });
+            }
+            return groupData;
+        }
+
+        public static IEnumerable<GroupData> GroupDataFromXMLFile()
+        {
+            List<GroupData> groupData = new List<GroupData>();
+            return (List<GroupData>) new XmlSerializer(typeof(List<GroupData>))
+                                        .Deserialize(new StreamReader(@"group.xml"));
+        }
+             
+        
+
+        public static IEnumerable<GroupData> GroupDataFromJSONFile()
+        {
+            return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"group.json"));
+        }
+        public static IEnumerable<GroupData> GroupDataFromEXELFile()
+        {
+            //return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"group.json"));
+            List<GroupData> groupData = new List<GroupData>();
+            EXEL.Application app = new EXEL.Application();
+            EXEL.Workbook wb = app.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), "@group.xlsx"));
+            EXEL.Worksheet sheet = wb.ActiveSheet;
+            EXEL.Range range = sheet.UsedRange;
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                groupData.Add(new GroupData()
+                {
+                  GroupName=  range.Cells[i,1].value,
+                  GroupHeader = range.Cells[i, 2].value,
+                  GroupFooter = range.Cells[i, 3].value
+                });
+            }
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+            return groupData;
+        }
 
 
-        [Test,TestCaseSource("RandomgroupDataProvaider")]
+        [Test,TestCaseSource("GroupDataFromEXELFile")]
         public void GroupCreationTest(GroupData groupData)
         {
                   

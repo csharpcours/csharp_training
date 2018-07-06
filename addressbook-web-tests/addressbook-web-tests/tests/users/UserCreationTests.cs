@@ -1,5 +1,13 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
+using EXEL = Microsoft.Office.Interop.Excel;
+
+
 
 
 namespace WebAddressbookTests
@@ -20,7 +28,64 @@ namespace WebAddressbookTests
             return userData;
         }
 
-        [Test, TestCaseSource("RandomgroupDataProvaider")]
+        public static IEnumerable<UserData> UserDataFromJSONFile()
+        {
+            return JsonConvert.DeserializeObject<List<UserData>>(File.ReadAllText(@"contact.json"));
+        }
+
+        public static IEnumerable<UserData> UserDataFromCSVFile()
+        {
+            List<UserData> userData = new List<UserData>();
+            string[] lines = File.ReadAllLines(@"contact.csv");
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                userData.Add(new UserData(parts[0])
+                {
+                    FirstName = parts[1],
+                    MidleName = parts[2]
+                });
+            }
+            return userData;
+        }
+        public static IEnumerable<UserData> UserDataFromXMLFile()
+        {
+            List<UserData> userData = new List<UserData>();
+            return (List<UserData>)new XmlSerializer(typeof(List<UserData>))
+                                        .Deserialize(new StreamReader(@"contact.xml"));
+        }
+        public static IEnumerable<UserData> UserDataFromEXELFile()
+        {
+            //return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"group.json"));
+            List<UserData> userData = new List<UserData>();
+            EXEL.Application app = new EXEL.Application();
+            EXEL.Workbook wb = app.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), "@contact.xlsx"));
+            EXEL.Worksheet sheet = wb.ActiveSheet;
+            EXEL.Range range = sheet.UsedRange;
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                userData.Add(new UserData()
+                {
+                    FirstName = range.Cells[i, 1].value,
+                    Lastname = range.Cells[i, 2].value,
+                    MidleName = range.Cells[i, 3].value,
+                    Address = range.Cells[i, 4].value,
+                    Email1 = range.Cells[i, 5].value,
+                    Email2 = range.Cells[i, 6].value,
+                    Email3 = range.Cells[i, 7].value,
+                    Mobile = range.Cells[i, 8].value,
+                    Home = range.Cells[i, 9].value,
+                    Work = range.Cells[i, 10].value,
+                    SecondaryHome = range.Cells[i, 11].value,
+            });
+            }
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+            return userData;
+        }
+
+        [Test, TestCaseSource("UserDataFromXMLFile")]
         public void UserCreationTest(UserData userData)
         {    
             //UserData userData = new UserData("FirstName", "LastName");
