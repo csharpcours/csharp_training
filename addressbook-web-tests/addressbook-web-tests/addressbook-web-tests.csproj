@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tests\groups\GroupCreationTests.cs" />
     <Compile Include="tests\LoginTests.cs" />
+    <Compile Include="tests\users\SearchTests.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="tests\users\ContactInformationTests.cs" />
     <Compile Include="tests\users\UserCreationTests.cs" />

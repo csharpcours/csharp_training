@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
@@ -13,13 +14,15 @@ namespace WebAddressbookTests
         {
         }
 
-        public UserData GetContactInformationFromTable(int index)
+        public UserData GetContactInformationEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
             
-            InitUserModification(0);
+            InitUserModification(index);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string midleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
             
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
@@ -33,6 +36,7 @@ namespace WebAddressbookTests
 
             return new UserData(firstName, lastName)
             {
+                MidleName = midleName,
                 Address = address,
                 Home= homePhone,
                 Work= workPhone,
@@ -44,7 +48,26 @@ namespace WebAddressbookTests
             };
         }
 
-        internal UserData GetContactInformationFromEditForm(int index)
+        public UserData GetContactInformationFromDetal(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitUserDetal(index);
+            string allContact = driver.FindElement(By.Id("content")).Text;
+            return new UserData(null)
+            {
+                AllContact = allContact
+            };
+
+        }
+
+        private void InitUserDetal(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                 .FindElements(By.TagName("td"))[6]
+                 .FindElement(By.TagName("a")).Click();
+        }
+
+        public UserData GetContactInformationFromTable(int index)
         {
             manager.Navigator.OpenHomePage();
            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index]
@@ -56,8 +79,6 @@ namespace WebAddressbookTests
             
             string allEmails = cells[4].Text;
 
-            //string mobilePhone = cells[2].Text;
-            //string workPhone = cells[2].Text;
             return new UserData(firstName, lastName)
             {
                 Address = address,
@@ -219,6 +240,15 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//input[@name='update'])[2]")).Click();
             contactCache = null;
             return this;
+        }
+
+        public int GetNumberOffresults()
+        {
+            manager.Navigator.OpenHomePage();
+           string text =  driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+
+            return Int32.Parse(m.Value);
         }
 
     }

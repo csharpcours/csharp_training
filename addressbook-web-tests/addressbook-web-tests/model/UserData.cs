@@ -3,33 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
     public class UserData : IEquatable<UserData>,IComparable<UserData>
     {
         private string allPhones;
+        private string allContact;
         private string allEmails;
+        private string fio;
         //private string firstName;
         //private string lastname;
-        //private string midleName ="";
-        //private string nickname = "";
-        //private string title = "";
-        //private string company = "";
-        //private string address = "";
-        //private string home = "";
-        //private string mobile = "";
-        //private string work = "";
-        //private string fax = "";
-        //private string email1 = "";
-        //private string email2 = "";
-        //private string email3 = "";
-        //private string homepage = "";
-        //private string secondaryHome = "";
-        //private string secondaryAddress = "";
-        //private string notes = "";
-        //private string year = "";
-        //private string ayear = "";
+        // private string midleName = "";
+        private string nickname = "";
+        private string title = "";
+        private string company = "";
+       // private string address = "";
+       // private string home = "";
+      //  private string mobile = "";
+       // private string work = "";
+        private string fax = "";
+       // private string email1 = "";
+       // private string email2 = "";
+       // private string email3 = "";
+        private string homepage = "";
+       // private string secondaryHome = "";
+        private string secondaryAddress = "";
+        private string notes = "";
+        private string year = "";
+        private string ayear = "";
 
         public UserData(string firstName, string lastname)
         {
@@ -79,25 +82,116 @@ namespace WebAddressbookTests
       
         public string MidleName { get; set; }
         
-        public string Nickname { get; set; }
-       
-        public string Title { get; set; }
-        public string Company { get; set; }
-        
+
+        public string Nickname
+        {
+            get
+            {
+                return nickname;
+            }
+            set
+            {
+                nickname = value;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+            set
+            {
+                title = value;
+            }
+        }
+        public string Company
+        {
+            get
+            {
+                return company;
+            }
+            set
+            {
+                company = value;
+            }
+        }
         public string Address { get; set; }
         public string Home { get; set; }
         public string Mobile { get; set; }
         public string Work { get; set; }
-        public string Fax { get; set; }
+
+        public string Fax
+        {
+            get
+            {
+                return fax;
+            }
+            set
+            {
+                fax = value;
+            }
+        }
         public string Email1 { get; set; }
         public string Email2 { get; set; }
         public string Email3 { get; set; }
-        public string Homepage { get; set; }
+
         public string SecondaryHome { get; set; }
-        public string SecondaryAddress { get; set; }
-        public string Notes { get; set; }
-        public string Year  { get; set; }
-        public string Ayear { get; set; }
+        public string Homepage
+        {
+            get
+            {
+                return homepage;
+            }
+            set
+            {
+                homepage = value;
+            }
+        }
+        public string SecondaryAddress
+        {
+            get
+            {
+                return secondaryAddress;
+            }
+            set
+            {
+                secondaryAddress = value;
+            }
+        }
+        public string Notes
+        {
+            get
+            {
+                return notes;
+            }
+            set
+            {
+                notes = value;
+            }
+        }
+        public string Year
+        {
+            get
+            {
+                return year;
+            }
+            set
+            {
+                year = value;
+            }
+        }
+        public string Ayear
+        {
+            get
+            {
+                return ayear;
+            } set
+            {
+                ayear = value;
+            }
+        }
         public string Id { get; set; }
 
         public string AllPhones
@@ -123,7 +217,7 @@ namespace WebAddressbookTests
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+            return Regex.Replace(phone,"[ -()]","")  + "\r\n";
         }
 
         public string AllEmails
@@ -166,5 +260,60 @@ namespace WebAddressbookTests
             }
             return mail+ "\r\n";
         }
+
+        public string AllContact //= allContact
+        {
+            get
+            {
+                if (allContact != null)
+                {
+                    return allContact;
+                }
+                else {
+                    return  LineBreak(FIO)+ LineBreak(LineBreak(Address)) + "H: " + LineBreak(Home) + ("M: ") + LineBreak(Mobile) + ("W: ")+ LineBreak(LineBreak(Work)) + LineBreak(LineBreak(LineBreak(LineBreak(AllEmails))))+ ("P: ")+SecondaryHome;
+                }
+
+            }
+            set
+            {
+                allContact = value;
+            }
+        }
+        public string FIO//FirstName + " " + MidleName + " " + LineBreak(Lastname)
+                         //private string firstName;
+                         //private string lastname;
+                         // private string midleName = "";
+        {
+            get
+            {
+                if (fio != null&&fio=="")
+                {
+                    return fio;
+                }
+                //if (lastname == "" && midleName == "")
+                //{
+                //    return firstName;
+                //}
+                //if (lastname == "")
+                //{
+                //    return (firstName) + (midleName);
+                //}
+                if (MidleName == "")
+                {
+                    return (FirstName) +" "+ Lastname;
+                }
+                else
+                {
+                    return (FirstName) +" "+ MidleName+" " + (Lastname);
+                }
+            }
+
+            set
+            {
+                fio = value;
+            }
+        }
+
+
     }
 }
