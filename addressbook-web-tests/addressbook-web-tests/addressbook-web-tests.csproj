@@ -89,6 +89,7 @@
     <Compile Include="tests\AddingContactToGroupTtests.cs" />
     <Compile Include="tests\AuthTestBase.cs" />
     <Compile Include="tests\ContactTestBase.cs" />
+    <Compile Include="tests\DeleteContactFromGroupTests.cs" />
     <Compile Include="tests\EmptyTests.cs" />
     <Compile Include="appManager\GroupHelper.cs" />
     <Compile Include="tests\groups\GroupModificationTests.cs" />

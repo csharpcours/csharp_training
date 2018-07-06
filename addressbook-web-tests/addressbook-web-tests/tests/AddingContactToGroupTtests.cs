@@ -16,6 +16,7 @@ namespace WebAddressbookTests
             List<UserData> oldList = group.GetContacts();
             UserData contact = UserData.GetAll().Except(oldList).First();
 
+            List<UserData> list = UserData.GetAll();
             app.Users.AddContactToGroup(contact, group);
 
             //actions
