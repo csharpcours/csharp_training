@@ -4,28 +4,29 @@ using System.Collections.Generic;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : AuthTestBase
+    public class GroupRemovalTests : GroupTestBase
     { 
         [Test]
         public void GroupRemovalTest()
         {
-           
+            
             if (!app.Groups.CheckGroup())
             {
                 GroupData groupData = new GroupData("testName");
                 app.Groups.Create(groupData);
             }
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData BeforDelOldGroups = oldGroups[0];
 
-            app.Groups.Remove(0);
+            app.Groups.Remove(BeforDelOldGroups);
 
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
 
             oldGroups.Sort();
             newGroups.Sort();
-            GroupData BeforDelOldGroups = oldGroups[0];
+            
             oldGroups.RemoveAt(0);
  
 

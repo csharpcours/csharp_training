@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
+using Newtonsoft.Json;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class UserData : IEquatable<UserData>,IComparable<UserData>
     {
         private string allPhones;
@@ -78,14 +81,15 @@ namespace WebAddressbookTests
             }
             return FirstName.CompareTo(other.FirstName);
         }
-
+        [Column(Name = "Id"),PrimaryKey]
+        public string Id { get; set; }
+        [Column(Name = "first")]
         public string FirstName { get; set; }
- 
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
-      
+        [Column(Name = "middlename")]
         public string MidleName { get; set; }
-        
-
+    
         public string Nickname
         {
             get
@@ -120,9 +124,13 @@ namespace WebAddressbookTests
                 company = value;
             }
         }
+        [Column(Name = "address")]
         public string Address { get; set; }
+        [Column(Name = "home")]
         public string Home { get; set; }
+        [Column(Name = "mobile")]
         public string Mobile { get; set; }
+        [Column(Name = "work")]
         public string Work { get; set; }
 
         public string Fax
@@ -136,10 +144,14 @@ namespace WebAddressbookTests
                 fax = value;
             }
         }
+        [Column(Name = "email")]
         public string Email1 { get; set; }
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
-
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
         public string SecondaryHome { get; set; }
         public string Homepage
         {
@@ -195,9 +207,16 @@ namespace WebAddressbookTests
                 ayear = value;
             }
         }
-        public string Id { get; set; }
+        
+        public static List<UserData> GetAll()
+       {
+            using (AddressBookDB db = new AddressBookDB())
+           {
+                return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
 
-        public string AllPhones
+           }
+       }
+public string AllPhones
         {       
             get {
                 if (allPhones != null)

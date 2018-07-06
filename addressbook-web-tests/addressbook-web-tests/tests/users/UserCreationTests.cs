@@ -13,7 +13,7 @@ using EXEL = Microsoft.Office.Interop.Excel;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class UserCreationTests : AuthTestBase
+    public class UserCreationTests : ContactTestBase
     {
 
         public static IEnumerable<UserData> RandomgroupDataProvaider()
@@ -108,12 +108,12 @@ namespace WebAddressbookTests
             ////userData.Year = "1988";
             ////userData.Ayear = "1988";
 
-            List<UserData> oldContacts = app.Users.GetContactList();
+            List<UserData> oldContacts = UserData.GetAll();// app.Users.GetContactList();
             app.Users.Create(userData);
 
             Assert.AreEqual(oldContacts.Count + 1, app.Users.GetUserCount());
 
-            List<UserData> newContacts = app.Users.GetContactList();
+            List<UserData> newContacts = UserData.GetAll();// app.Users.GetContactList();
             oldContacts.Add(userData);
             oldContacts.Sort();
             newContacts.Sort();

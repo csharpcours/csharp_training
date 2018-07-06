@@ -6,7 +6,7 @@ namespace WebAddressbookTests
 
 {
     [TestFixture]
-    public class GroupModificationTests : AuthTestBase
+    public class GroupModificationTests : GroupTestBase
     {
         [Test]
         public void GroupModificationTest()
@@ -20,12 +20,12 @@ namespace WebAddressbookTests
             newData.GroupFooter =  "ModifyFooterName";
             newData.GroupHeader = "ModifyGroupHeader";
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();//app.Groups.GetGroupList();
             GroupData BeforModifOldGroups = oldGroups[0];
             app.Groups.Modify(0, newData);
-            Assert.AreEqual(oldGroups.Count , app.Groups.GetGroupCount());
+            //Assert.AreEqual(oldGroups.Count , app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll(); //app.Groups.GetGroupList();
             oldGroups[0].GroupName = newData.GroupName;
 
             

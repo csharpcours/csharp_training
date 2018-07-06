@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class UserModificationTests : AuthTestBase
+    public class UserModificationTests : ContactTestBase
     {
         [Test]
         public void UserModificationTest()
@@ -37,11 +37,11 @@ namespace WebAddressbookTests
                 app.Users.Create(createData);
             }
 
-            List<UserData> oldContacts = app.Users.GetContactList();
+            List<UserData> oldContacts = UserData.GetAll(); //app.Users.GetContactList();
             app.Users.Modification(userData);
             Assert.AreEqual(oldContacts.Count , app.Users.GetUserCount());
 
-            List<UserData> newContacts = app.Users.GetContactList();
+            List<UserData> newContacts = UserData.GetAll(); //app.Users.GetContactList();
             oldContacts[0].Lastname = userData.Lastname;
             oldContacts[0].FirstName = userData.FirstName;
             //oldContacts.Add(userData);

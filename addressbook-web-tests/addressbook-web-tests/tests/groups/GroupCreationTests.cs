@@ -13,7 +13,7 @@ using EXEL = Microsoft.Office.Interop.Excel;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomgroupDataProvaider()
         {
@@ -83,11 +83,11 @@ namespace WebAddressbookTests
         [Test,TestCaseSource("GroupDataFromEXELFile")]
         public void GroupCreationTest(GroupData groupData)
         {
-                  
+
             //GroupData groupData = new GroupData("testName");
             //groupData.GroupFooter = "FooterName";
 
-            List<GroupData> oldGroups =app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();   //app.Groups.GetGroupList();
             app.Groups.Create(groupData);
 
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
@@ -96,7 +96,7 @@ namespace WebAddressbookTests
 
             
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll(); //app.Groups.GetGroupList();
 
             oldGroups.Sort();
             newGroups.Sort();
@@ -135,5 +135,24 @@ namespace WebAddressbookTests
             //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
             Assert.AreEqual(oldGroups, newGroups);
         }
+        [Test]
+        public void TestsDBConnect()
+        {
+            //DateTime start = DateTime.Now;
+            //List<GroupData> fromUi = app.Groups.GetGroupList();
+            //DateTime end = DateTime.Now;
+            //System.Console.WriteLine(end.Subtract(start));
+
+            //start = DateTime.Now;
+            //List<GroupData> fromDb = GroupData.GetAll();
+            //end = DateTime.Now;
+            //System.Console.WriteLine(end.Subtract(start));
+
+            foreach (UserData contact in GroupData.GetAll()[0].GetContacts())
+            {
+                System.Console.Out.WriteLine(contact);
+            }
+        }
+
     }
 }
