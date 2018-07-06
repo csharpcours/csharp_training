@@ -145,6 +145,7 @@ namespace addressbook_web_tests_generators
             wb.Close();
             app.Visible =false;
             app.Quit();
+            //
         }
 
         static void writeGroupToJSONFile(List<GroupData> groups, StreamWriter writer)
